@@ -17,17 +17,17 @@ const App = () => {
 
   return (
     <Fragment>
-      <StatusBar barStyle="dark-content" animated={false} hidden={isHidden} />
+      <StatusBar barStyle='dark-content' animated={false} hidden={isHidden} />
       <View style={styles.container}>
         <Text>Hello World!</Text>
         <Text>{name}</Text>
         <TextInput
           style={styles.input}
-          placeholder="Type here smthing!"
+          placeholder='Type here smthing!'
           onChangeText={setName}
           value={name}
         />
-        <Icon name='ios-trash' size={30} />
+        <Icon name='ios-trash' size={30} color='red' />
         <Button title='click me' onPress={toggleStatusBar} />
       </View>
     </Fragment>
@@ -36,7 +36,9 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10
+    padding: 10,
+    flex: 1,
+    justifyContent: 'center'
   },
   input: {
     height: 40,
