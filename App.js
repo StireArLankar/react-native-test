@@ -1,50 +1,69 @@
-import React, { Fragment, useState } from 'react'
-import {
-  View,
-  StyleSheet,
-  Text,
-  StatusBar,
-  TextInput,
-  Button
-} from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
+import React from 'react'
+import { Dimensions } from 'react-native'
+import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation'
+import HomeScreen from './src/home-screen'
+import DetailsScreen from './src/details-screen'
+import ModalScreen from './src/modal-screen'
+import Drawer from './src/drawer-component'
 
-const App = () => {
-  const [name, setName] = useState('')
-  const [isHidden, setIsHidden] = useState(false)
+import Ctx from './src/context'
 
-  const toggleStatusBar = () => setIsHidden(!isHidden)
+const options = {
+  initialRouteName: 'Home',
+  defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: '#f4511e'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    }
+  }
+}
 
+const screens = {
+  Home: {
+    screen: HomeScreen
+  },
+  Details: {
+    screen: DetailsScreen
+  }
+}
+
+const MainStack = createStackNavigator(screens, options)
+
+const RootStack = createDrawerNavigator(
+  {
+    Main: {
+      screen: MainStack
+    },
+    MyModal: {
+      screen: ModalScreen
+    }
+  },
+  {
+    contentComponent: Drawer,
+    drawerWidth: () => Dimensions.get('window').width,
+    drawerBackgroundColor: 'rgba(255, 255, 255, 0.8)',
+    drawerLockMode: 'locked-open'
+  }
+)
+
+const AppContainer = createAppContainer(RootStack)
+
+const Temp = (props) => {
+  const [counter, setCounter] = React.useState(0)
   return (
-    <Fragment>
-      <StatusBar barStyle='dark-content' animated={false} hidden={isHidden} />
-      <View style={styles.container}>
-        <Text>Hello World!</Text>
-        <Text>{name}</Text>
-        <TextInput
-          style={styles.input}
-          placeholder='Type here smthing!'
-          onChangeText={setName}
-          value={name}
-        />
-        <Icon name='ios-trash' size={30} color='red' />
-        <Button title='click me' onPress={toggleStatusBar} />
-      </View>
-    </Fragment>
+    <Ctx.Provider value={{ counter, setCounter }}>
+      {props.children}
+    </Ctx.Provider>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    flex: 1,
-    justifyContent: 'center'
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: 'black'
-  }
-})
+const App = () => (
+  <Temp>
+    <AppContainer />
+  </Temp>
+)
 
 export default App
