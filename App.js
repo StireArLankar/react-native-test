@@ -7,6 +7,7 @@ import {
   TextInput,
   Button
 } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const App = () => {
   const [name, setName] = useState('')
@@ -17,7 +18,7 @@ const App = () => {
   return (
     <Fragment>
       <StatusBar barStyle="dark-content" animated={false} hidden={isHidden} />
-      <View>
+      <View style={styles.container}>
         <Text>Hello World!</Text>
         <Text>{name}</Text>
         <TextInput
@@ -26,6 +27,7 @@ const App = () => {
           onChangeText={setName}
           value={name}
         />
+        <Icon name='ios-trash' size={30} />
         <Button title='click me' onPress={toggleStatusBar} />
       </View>
     </Fragment>
@@ -33,6 +35,9 @@ const App = () => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 10
+  },
   input: {
     height: 40,
     borderWidth: 1,
@@ -40,4 +45,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default App;
+export default App
